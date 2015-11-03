@@ -24,6 +24,7 @@
     "browser": true,
     "element": true,
     "by": true,
-    "chrome": true
+    "chrome": true,
+    "console": true
   }
 }

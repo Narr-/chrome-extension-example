@@ -33,7 +33,7 @@
       // If you want to see the URL of other tabs (e.g. after removing active:true
       // from |queryInfo|), then the "tabs" permission is required to see their
       // "url" properties.
-      console.assert(typeof url == 'string', 'tab.url should be a string');
+      console.assert(typeof url === 'string', 'tab.url should be a string');
 
       callback(url);
     });
@@ -67,21 +67,21 @@
     x.onload = function() {
       // Parse and process the response from Google Image Search.
       var response = x.response;
+      console.log(response);
       if (!response || !response.responseData || !response.responseData.results ||
         response.responseData.results.length === 0) {
         errorCallback('No response from Google Image search!');
         return;
       }
-      var firstResult = response.responseData.results[0];
-      console.log(response);
-      // Take the thumbnail instead of the full image to get an approximately
-      // consistent image size.
-      var imageUrl = firstResult.tbUrl;
-      var width = parseInt(firstResult.tbWidth);
-      var height = parseInt(firstResult.tbHeight);
+      var rstLen = response.responseData.results.length;
+      var index = Math.floor(Math.random() * rstLen);
+      var result = response.responseData.results[index];
+      var imageUrl = result.tbUrl;
+      var width = parseInt(result.tbWidth);
+      var height = parseInt(result.tbHeight);
       console.assert(
         typeof imageUrl === 'string' && !isNaN(width) && !isNaN(height),
-        'Unexpected respose from the Google Image Search API!');
+        'Unexpected response from the Google Image Search API!');
       callback(imageUrl, width, height);
     };
     x.onerror = function() {
@@ -95,12 +95,12 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
+    /*
     getCurrentTabUrl(function(url) {
       // Put the image URL in Google search.
       renderStatus('Performing Google Image search for ' + url);
 
       getImageUrl(url, function(imageUrl, width, height) {
-
         renderStatus('Search term: ' + url + '\n' +
           'Google image search result: ' + imageUrl);
         var imageResult = document.getElementById('image-result');
@@ -117,5 +117,26 @@
         renderStatus('Cannot display image. ' + errorMessage);
       });
     });
+    */
+
+    var searchWord = 'Jessica Alba';
+    renderStatus('Performing Google Image search for ' + searchWord);
+    getImageUrl(searchWord,
+      function(imageUrl, width, height) { // success callback
+        renderStatus('Search term: ' + searchWord + '\n' +
+          'Google image search result: ' + imageUrl);
+        var imageResult = document.getElementById('image-result');
+        // Explicitly set the width/height to minimize the number of reflows. For
+        // a single image, this does not matter, but if you're going to embed
+        // multiple external images in your page, then the absence of width/height
+        // attributes causes the popup to resize multiple times.
+        imageResult.width = width;
+        imageResult.height = height;
+        imageResult.src = imageUrl;
+        imageResult.style.display = 'block'; // to set margin:0 auto
+      },
+      function(errorMessage) { // error callback
+        renderStatus('Cannot display image. ' + errorMessage);
+      });
   });
 })();

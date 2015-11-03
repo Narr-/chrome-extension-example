@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Getting started example app with a Fn that removes Doc onselectstart event in a specific page",
   "version": "1.0",
-  "description": "This extension shows a Google Image search result for the current page and removes onselectstart event of document in a page that matches specific urls",
+  "description": "This extension shows a Google Image search result for a search word and removes onselectstart event of document in a page that matches specific urls",
   "browser_action": {
     "default_icon": "icon19.png",
     "default_title": "Click..!!",
