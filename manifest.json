@@ -9,7 +9,7 @@
     "default_popup": "popup.html"
   },
   "content_scripts": [{
-    "matches": ["http://www.hackers.co.kr/*"],
+    "matches": ["https://www.hackers.co.kr/*"],
     "js": ["script.js"]
   }],
   "permissions": [
